@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-function EditModal({ task }) {
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
+function EditModal({ task, modalOptions }) {
   const { taskToEdit, setTaskToEdit } = task;
+  const { showEditModal, setShowEditModal } = modalOptions;
   const { id, title } = taskToEdit;
   const [isSubmitted, setIsSubmitted] = useState(false);
   const handleChange = (e) => {
@@ -16,60 +19,35 @@ function EditModal({ task }) {
         .then(() => window.location.reload());
     }
   }, [isSubmitted]);
+  const handleClose = () => setShowEditModal(false);
   return (
-    <div
-      className="modal fade"
-      id="editModal"
-      tabIndex="-1"
-      aria-labelledby="editModalLabel"
-      aria-hidden="true"
-    >
-      <div className="modal-dialog">
-        <div className="modal-content">
-          <div className="modal-header">
-            <h1 className="modal-title fs-5" id="editModalLabel">
-              Edit Task
-            </h1>
-            <button
-              type="button"
-              className="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div className="modal-body">
-            <div className="form-outline mb-4">
-              <label className="form-label" htmlFor="email">
-                Title
-              </label>
-              <input
-                type="text"
-                name="title"
-                className="form-control form-control-lg"
-                value={title}
-                onChange={handleChange}
-              />
-            </div>
-          </div>
-          <div className="modal-footer">
-            <button
-              type="button"
-              className="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Close
-            </button>
-            <button
-              type="button"
-              className="btn btn-primary"
-              onClick={() => setIsSubmitted(true)}
-            >
-              Edit
-            </button>
-          </div>
+    <Modal show={showEditModal} onHide={handleClose}>
+      <Modal.Header closeButton>
+        <Modal.Title>Edit Task</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <div className="form-outline mb-4">
+          <label className="form-label" htmlFor="email">
+            Title
+          </label>
+          <input
+            type="text"
+            name="title"
+            className="form-control form-control-lg"
+            value={title}
+            onChange={handleChange}
+          />
         </div>
-      </div>
-    </div>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="secondary" onClick={handleClose}>
+          Close
+        </Button>
+        <Button variant="primary" onClick={() => setIsSubmitted(true)}>
+          Edit
+        </Button>
+      </Modal.Footer>
+    </Modal>
   );
 }
 

@@ -4,10 +4,9 @@ import ViewModal from "../view-modal";
 import EditModal from "../edit-Modal";
 import AddModal from "../add-modal";
 import Navbar from "../navbar";
+import { Button } from "react-bootstrap";
 function Home() {
   const [myTasks, setMyTasks] = useState([]);
-  const [newTask, setNewTask] = useState({ title: "" });
-  const [addTask, setAddTask] = useState(false);
   const [daletedTask, setDeletedTask] = useState(null);
   const [taskToView, setTaskToView] = useState({});
   const [taskToEdit, setTaskToEdit] = useState({ title: "" });
@@ -17,25 +16,15 @@ function Home() {
   const [elapsedTime, setElapsedTime] = useState(0);
   const [stopTimer, setStopTimer] = useState(null);
   const [displayedTasks, setDisplayedTasks] = useState([]);
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [showViewModal, setShowViewModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
   useEffect(() => {
     axios.get("tasks").then((res) => {
       setMyTasks(res.data);
       setDisplayedTasks(res.data);
     });
   }, []);
-  useEffect(() => {
-    if (addTask) {
-      axios.post("/tasks", newTask).then(() => window.location.reload());
-    }
-  }, [addTask]);
-  const handleAddTask = (e) => {
-    e.preventDefault();
-    setAddTask(true);
-  };
-  const handleAddChange = (e) => {
-    const { name, value } = e.target;
-    setNewTask({ ...newTask, [name]: value });
-  };
   useEffect(() => {
     if (daletedTask) {
       axios
@@ -111,20 +100,15 @@ function Home() {
           className="mb-5"
         >
           <input
-            class="form-control"
+            className="form-control"
             type="text"
             placeholder="Search By Title"
             style={{ width: "200px" }}
             onChange={search}
           />
-          <button
-            type="button"
-            className="btn btn-primary"
-            data-bs-toggle="modal"
-            data-bs-target="#exampleModal"
-          >
+          <Button variant="primary" onClick={() => setShowAddModal(true)}>
             Add+
-          </button>
+          </Button>
         </div>
         <table className="table">
           <thead>
@@ -143,7 +127,7 @@ function Home() {
                 <td>
                   {task.status == "complete" ? (
                     <div className="text-success">
-                      <i class="bi bi-check-circle"></i>
+                      <i className="bi bi-check-circle"></i>
                     </div>
                   ) : (
                     <input
@@ -172,96 +156,41 @@ function Home() {
                   >
                     Track
                   </button>
-                  <button
-                    type="button"
-                    className="btn btn-info "
-                    data-bs-toggle="modal"
-                    data-bs-target="#viewModal"
+                  <Button
+                    variant="info"
                     onClick={() => {
                       setTaskToView(task);
+                      setShowViewModal(true);
                     }}
                   >
                     Show
-                  </button>
-                  <button
-                    type="button"
-                    className="btn btn-secondary"
-                    data-bs-toggle="modal"
-                    data-bs-target="#editModal"
+                  </Button>
+                  <Button
+                    variant="secondary"
                     onClick={() => {
                       setTaskToEdit(task);
+                      setShowEditModal(true);
                     }}
                   >
                     Edit
-                  </button>
-                  <button
-                    type="button"
-                    className="btn btn-danger"
-                    onClick={() => setDeletedTask(task)}
-                  >
+                  </Button>
+                  <Button variant="danger" onClick={() => setDeletedTask(task)}>
                     Delete
-                  </button>
+                  </Button>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
-        <div
-          className="modal fade"
-          id="exampleModal"
-          tabIndex="-1"
-          aria-labelledby="exampleModalLabel"
-          aria-hidden="true"
-        >
-          <div className="modal-dialog">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h1 className="modal-title fs-5" id="exampleModalLabel">
-                  Add Task
-                </h1>
-                <button
-                  type="button"
-                  className="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></button>
-              </div>
-              <div className="modal-body">
-                <div className="form-outline mb-4">
-                  <label className="form-label" htmlFor="title">
-                    Title
-                  </label>
-                  <input
-                    type="text"
-                    name="title"
-                    className="form-control form-control-lg"
-                    value={newTask.title}
-                    onChange={handleAddChange}
-                  />
-                </div>
-              </div>
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  data-bs-dismiss="modal"
-                >
-                  Close
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  onClick={handleAddTask}
-                >
-                  Add
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-        {/* <AddModal /> */}
-        <ViewModal modalData={taskToView} />
-        <EditModal task={{ taskToEdit, setTaskToEdit }} />
+        <AddModal modalOptions={{ showAddModal, setShowAddModal }} />
+        <ViewModal
+          modalData={taskToView}
+          modalOptions={{ showViewModal, setShowViewModal }}
+        />
+        <EditModal
+          task={{ taskToEdit, setTaskToEdit }}
+          modalOptions={{ showEditModal, setShowEditModal }}
+        />
       </div>
     </>
   );

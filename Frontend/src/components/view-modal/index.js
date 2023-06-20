@@ -1,42 +1,25 @@
-function ViewModal({ modalData }) {
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
+import { useState } from "react";
+function ViewModal({ modalData, modalOptions }) {
+  const { showViewModal, setShowViewModal } = modalOptions;
+  const handleClose = () => setShowViewModal(false);
   return (
-    <div
-      className="modal fade"
-      id="viewModal"
-      tabIndex="-1"
-      aria-labelledby="viewModalLabel"
-      aria-hidden="true"
-    >
-      <div className="modal-dialog">
-        <div className="modal-content">
-          <div className="modal-header">
-            <h1 className="modal-title fs-5" id="viewModalLabel">
-              {modalData.title}
-            </h1>
-            <button
-              type="button"
-              className="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div className="modal-body">
-            <div>Title : {modalData.title}</div>
-            <div>Status : {modalData.status}</div>
-            <div>Time spent : {modalData.timeSpent}</div>
-          </div>
-          <div className="modal-footer">
-            <button
-              type="button"
-              className="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+    <Modal show={showViewModal} onHide={handleClose}>
+      <Modal.Header closeButton>
+        <Modal.Title>{modalData.title}</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <div>Title : {modalData.title}</div>
+        <div>Status : {modalData.status}</div>
+        <div>Time spent : {modalData.timeSpent}</div>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="secondary" onClick={handleClose}>
+          Close
+        </Button>
+      </Modal.Footer>
+    </Modal>
   );
 }
 
