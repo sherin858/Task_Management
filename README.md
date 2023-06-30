@@ -1,5 +1,9 @@
 # Task_Management
 
+
+https://github.com/sherin858/Task_Management/assets/81813717/f44469d0-681c-4a31-a664-a7503c75a295
+
+
 ## Backend:
 1. Secure Authentication APIs (register users - login users).
 2. A task management system where users can create, edit, and delete tasks(CRUD).
@@ -26,6 +30,6 @@ Used the following technologies:
 8. While a task is being tracked, the time counter should be updated in the format of (HH:MM:SS) to reflect the time elapsed.
 9. A time tracking system that integrates with the backend time tracking system
 
-Use the following technologies:
+Used the following technologies:
 - React.js
 - Bootstrap Framework for UI.
