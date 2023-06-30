@@ -1,7 +1,5 @@
 # Task_Management
 
-https://github.com/sherin858/Task_Management/assets/81813717/2a97d38e-eccf-4791-918f-1fd759504dd4
-
 ## Backend:
 1. Secure Authentication APIs (register users - login users).
 2. A task management system where users can create, edit, and delete tasks(CRUD).
