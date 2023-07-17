@@ -9,6 +9,8 @@ import { AppService } from './app.service';
 import { TasksModule } from './tasks/task.module';
 import { UserModule } from './user/user.module';
 import { JwtModule } from '@nestjs/jwt';
+import { UserControllerController } from './user-controller/user-controller.controller';
+import { UserControllerController } from './user-controller/user-controller.controller';
 @Module({
   imports: [
     PassportModule,
@@ -20,7 +22,7 @@ import { JwtModule } from '@nestjs/jwt';
     TasksModule,
     UserModule,
   ],
-  controllers: [AppController],
+  controllers: [AppController, UserControllerController],
   providers: [JwtAuthGuard, JwtStrategy, AppService],
 })
 export class AppModule {}
