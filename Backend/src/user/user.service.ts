@@ -8,13 +8,12 @@ export class UserService {
   private readonly secretKey = 'my-secret-key';
   constructor(@InjectModel('User') private readonly userModel: Model<User>) {}
   async registerUser(name: string, email: string, password: string) {
-    const newUser = new this.userModel({
+    const newUser = await this.userModel.create({
       name,
       email,
       password,
     });
-    const result = await newUser.save();
-    return result.id as string;
+    return newUser.id as string;
   }
   async findUserByEmail(email: string): Promise<User | undefined> {
     let user = this.userModel.findOne({ email }).exec();
